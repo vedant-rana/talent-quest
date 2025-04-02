@@ -1,0 +1,4 @@
+# backend ignored files
+backend/node_modules
+dist
+.env
