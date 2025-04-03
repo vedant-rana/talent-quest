@@ -75,7 +75,7 @@ export const updateUserRole = TryCatch(async (req, res, next) => {
 
   return res
     .status(HttpStatus.OK)
-    .json(successResponse(updatedRole, "Category type updated successfully"));
+    .json(successResponse(updatedRole, "User Role updated successfully"));
 });
 
 export const deleteUserRole = TryCatch(async (req, res, next) => {

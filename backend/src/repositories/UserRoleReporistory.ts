@@ -18,15 +18,15 @@ export const USerRoleRepository: IUserRoleRepository = {
     return await UserRole.findOne(searchObj);
   },
 
-  async createUserRole(category: UserRoleModelType): Promise<IUserRole | null> {
-    return await UserRole.create(category);
+  async createUserRole(role: UserRoleModelType): Promise<IUserRole | null> {
+    return await UserRole.create(role);
   },
 
   async updateUserRole(
     id: string,
-    category: UserRoleModelType
+    role: UserRoleModelType
   ): Promise<IUserRole | null> {
-    return UserRole.findByIdAndUpdate(id, category, {
+    return UserRole.findByIdAndUpdate(id, role, {
       new: true,
     });
   },

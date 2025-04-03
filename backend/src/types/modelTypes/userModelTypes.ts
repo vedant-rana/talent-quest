@@ -1,7 +1,15 @@
 import { Document } from "mongoose";
 
-export type userModelType = {
+export type UserModelType = {
   firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  role: number;
+  isActive: boolean;
 };
 
-export type ICategoryType = userModelType & Document;
+export type IUser = UserModelType &
+  Document & {
+    comparePassword(candidatePassword: string): Promise<boolean>;
+  };
