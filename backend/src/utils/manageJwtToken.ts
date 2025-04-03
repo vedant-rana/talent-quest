@@ -1,14 +1,26 @@
-import { Response } from "express";
+import { NextFunction, Response } from "express";
 import { IUser } from "../types/modelTypes/userModelTypes.js";
 import { successResponse } from "./responseFunction.js";
+import ErrorHandler from "./customError.js";
+import HttpStatus from "./httpStatusCodes.js";
 
 export const sendToken = (
-  user: IUser,
-  statusCode: number,
   res: Response,
+  next: NextFunction,
+  user: IUser | null,
+  statusCode: number,
   message: string
 ) => {
-  const token = "";
+  const token = user?.getJWTToken();
+
+  if (!token) {
+    return next(
+      new ErrorHandler(
+        "Token creation failed!!",
+        HttpStatus.INTERNAL_SERVER_ERROR
+      )
+    );
+  }
 
   const cookieExpiresDays: number =
     Number(process.env.COOKIE_EXPIRES_DAYS) || 5;

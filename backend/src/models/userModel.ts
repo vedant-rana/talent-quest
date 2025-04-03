@@ -49,14 +49,15 @@ userSchema.methods.comparePassword = async function (
   return await bcrypt.compare(candidatePassword, this.password as string);
 };
 
-// userSchema.methods.getJWTToken = function (): string {
-//   const secretToken: string = process.env.JWT_SECRET || "default_secret"; // Ensure it's always a string
-//   const expiresIn: string | number = process.env.JWT_EXPIRE || "1d"; // Default value
+userSchema.methods.getJWTToken = function (): string {
+  let expiresIn: number = Number(process.env.JWT_EXPIRES_IN) || 3600 * 24 * 5;
 
-//   return jwt.sign({ id: this._id }, secretToken, {
-//     expiresIn, // This can be a number (seconds) or string ("1h", "7d", etc.)
-//   });
-// };
+  const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET as string, {
+    expiresIn,
+  });
+
+  return token;
+};
 
 const User: Model<IUser> = model<IUser>("User", userSchema);
 

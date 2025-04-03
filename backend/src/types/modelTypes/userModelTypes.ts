@@ -12,4 +12,5 @@ export type UserModelType = {
 export type IUser = UserModelType &
   Document & {
     comparePassword(candidatePassword: string): Promise<boolean>;
+    getJWTToken(): string;
   };

@@ -5,6 +5,7 @@ import HttpStatus from "../utils/httpStatusCodes.js";
 import { successResponse } from "../utils/responseFunction.js";
 import { UserRepository as uRepo } from "../repositories/UserRepository.js";
 import { UserModelType } from "../types/modelTypes/userModelTypes.js";
+import { sendToken } from "../utils/manageJwtToken.js";
 
 export const getAllUsers = TryCatch(async (req, res, next) => {
   const roles = await uRepo.getAllUsers();
@@ -41,9 +42,16 @@ export const createUser = TryCatch(async (req, res, next) => {
 
   const user = await uRepo.createUser(reqObj);
 
-  return res
-    .status(HttpStatus.CREATED)
-    .json(successResponse(user, "User created successfully"));
+  return sendToken(
+    res,
+    next,
+    user,
+    HttpStatus.CREATED,
+    "User created successfully"
+  );
+  // return res
+  //   .status(HttpStatus.CREATED)
+  //   .json(successResponse(user, "User created successfully"));
 });
 
 export const updateUser = TryCatch(async (req, res, next) => {
