@@ -1,6 +1,7 @@
 import { Model, Schema, model } from "mongoose";
-import { IUser } from "../types/modelTypes/userModelTypes.js";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { IUser } from "../types/modelTypes/userModelTypes.js";
 
 const userSchema: Schema = new Schema<IUser>(
   {
@@ -47,6 +48,15 @@ userSchema.methods.comparePassword = async function (
 ): Promise<boolean> {
   return await bcrypt.compare(candidatePassword, this.password as string);
 };
+
+// userSchema.methods.getJWTToken = function (): string {
+//   const secretToken: string = process.env.JWT_SECRET || "default_secret"; // Ensure it's always a string
+//   const expiresIn: string | number = process.env.JWT_EXPIRE || "1d"; // Default value
+
+//   return jwt.sign({ id: this._id }, secretToken, {
+//     expiresIn, // This can be a number (seconds) or string ("1h", "7d", etc.)
+//   });
+// };
 
 const User: Model<IUser> = model<IUser>("User", userSchema);
 
