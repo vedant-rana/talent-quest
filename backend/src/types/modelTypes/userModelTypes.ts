@@ -5,8 +5,8 @@ export type UserModelType = {
   lastName: string;
   email: string;
   password: string;
-  role: number;
-  isActive: boolean;
+  role?: number;
+  isActive?: boolean;
 };
 
 export type IUser = UserModelType &

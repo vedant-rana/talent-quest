@@ -1,6 +1,6 @@
 import { TryCatch } from "../middlewares/errorMiddlewares.js";
 import { AuthRepository } from "../repositories/AuthRepository.js";
-import { LoginType } from "../types/authTypes/authTypes.js";
+import { LoginType, SignupType } from "../types/authTypes/authTypes.js";
 import ErrorHandler from "../utils/customError.js";
 import HttpStatus from "../utils/httpStatusCodes.js";
 import { sendToken } from "../utils/manageJwtToken.js";
@@ -23,6 +23,24 @@ export const loginUser = TryCatch(async (req, res, next) => {
     user,
     HttpStatus.OK,
     "User logged in successfully"
+  );
+});
+
+export const signupUser = TryCatch(async (req, res, next) => {
+  const reqObj: SignupType = req.body;
+
+  const user = await AuthRepository.signup(reqObj);
+
+  if (!user) {
+    return next(new ErrorHandler("User alreay Exist", HttpStatus.CONFLICT));
+  }
+
+  return sendToken(
+    res,
+    next,
+    user,
+    HttpStatus.OK,
+    "User Signed Up successfully !!"
   );
 });
 

@@ -1,9 +1,15 @@
 import express from "express";
-import { loginUser, logoutUser } from "../controllers/authController.js";
+import {
+  loginUser,
+  signupUser,
+  logoutUser,
+} from "../controllers/authController.js";
 
 const router = express.Router();
 
 router.route("/login").post(loginUser);
+
+router.route("/signup").post(signupUser);
 
 router.route("/logout").get(logoutUser);
 
