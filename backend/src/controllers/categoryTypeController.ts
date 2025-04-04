@@ -5,6 +5,9 @@ import ErrorHandler from "../utils/customError.js";
 import { successResponse } from "../utils/responseFunction.js";
 import HttpStatus from "../utils/httpStatusCodes.js";
 import { CategoryTypeRepository as ctRepository } from "../repositories/CategoryTypeRepository.js";
+import { validateWithSchema } from "../utils/validations/validateFunctions.js";
+import { categoryTypeValidationSchema } from "../utils/validations/masterValidationSchemas/categoryValidationSchema.js";
+import { isObjectIdValid } from "../utils/validations/commonValidationSchemas.js";
 
 export const getAllCategoryTypes = TryCatch(async (req, res, next) => {
   const categoryTypes = await ctRepository.getAllCategoryTypes();
@@ -17,7 +20,7 @@ export const getAllCategoryTypes = TryCatch(async (req, res, next) => {
 });
 
 export const getCategoryTypeById = TryCatch(async (req, res, next) => {
-  const id = req.params.id;
+  const id = isObjectIdValid(req.params.id);
 
   const categoryType = await ctRepository.getCategoryTypeById(id);
 
@@ -40,8 +43,13 @@ export const getCategoryTypeById = TryCatch(async (req, res, next) => {
 export const createCategoryType = TryCatch(async (req, res, next) => {
   const reqObj: CategoryTypeType = req.body;
 
+  const validReqObj = validateWithSchema<CategoryTypeType>(
+    categoryTypeValidationSchema,
+    reqObj
+  );
+
   const isExist = await ctRepository.getCategoryTypeByCustomObj({
-    categoryTypeName: reqObj.categoryTypeName,
+    categoryTypeName: validReqObj.categoryTypeName,
   });
 
   if (isExist) {
@@ -50,7 +58,7 @@ export const createCategoryType = TryCatch(async (req, res, next) => {
     );
   }
 
-  const categoryType = await ctRepository.createCategoryType(reqObj);
+  const categoryType = await ctRepository.createCategoryType(validReqObj);
 
   return res
     .status(HttpStatus.CREATED)
@@ -58,8 +66,12 @@ export const createCategoryType = TryCatch(async (req, res, next) => {
 });
 
 export const updateCategoryType = TryCatch(async (req, res, next) => {
-  const id = req.params.id;
-  const reqObj: CategoryTypeType = req.body;
+  const id = isObjectIdValid(req.params.id);
+
+  const reqObj: CategoryTypeType = validateWithSchema<CategoryTypeType>(
+    categoryTypeValidationSchema,
+    req.body
+  );
 
   const isExist = await ctRepository.getCategoryTypeById(id);
 
@@ -93,7 +105,7 @@ export const updateCategoryType = TryCatch(async (req, res, next) => {
 });
 
 export const deleteCategoryType = TryCatch(async (req, res, next) => {
-  const id = req.params.id;
+  const id = isObjectIdValid(req.params.id);
 
   const categoryType = await ctRepository.getCategoryTypeById(id);
 

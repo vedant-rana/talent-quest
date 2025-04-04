@@ -5,7 +5,9 @@ import HttpStatus from "../utils/httpStatusCodes.js";
 import { successResponse } from "../utils/responseFunction.js";
 import { UserRepository as uRepo } from "../repositories/UserRepository.js";
 import { UserModelType } from "../types/modelTypes/userModelTypes.js";
-import { sendToken } from "../utils/manageJwtToken.js";
+import { isObjectIdValid } from "../utils/validations/commonValidationSchemas.js";
+import { validateWithSchema } from "../utils/validations/validateFunctions.js";
+import { userValidSchema } from "../utils/validations/masterValidationSchemas/userValidationSchema.js";
 
 export const getAllUsers = TryCatch(async (req, res, next) => {
   const roles = await uRepo.getAllUsers();
@@ -16,7 +18,7 @@ export const getAllUsers = TryCatch(async (req, res, next) => {
 });
 
 export const getUserById = TryCatch(async (req, res, next) => {
-  const id = req.params.id;
+  const id = isObjectIdValid(req.params.id);
 
   const user = await uRepo.getUserById(id);
 
@@ -30,7 +32,10 @@ export const getUserById = TryCatch(async (req, res, next) => {
 });
 
 export const createUser = TryCatch(async (req, res, next) => {
-  const reqObj: UserModelType = { ...req.body, isActive: true };
+  const reqObj: UserModelType = validateWithSchema<UserModelType>(
+    userValidSchema,
+    req.body
+  );
 
   const isExist = await uRepo.getUserByCustomObj({
     email: reqObj.email,
@@ -42,21 +47,25 @@ export const createUser = TryCatch(async (req, res, next) => {
 
   const user = await uRepo.createUser(reqObj);
 
-  return sendToken(
-    res,
-    next,
-    user,
-    HttpStatus.CREATED,
-    "User created successfully"
-  );
-  // return res
-  //   .status(HttpStatus.CREATED)
-  //   .json(successResponse(user, "User created successfully"));
+  // return sendToken(
+  //   res,
+  //   next,
+  //   user,
+  //   HttpStatus.CREATED,
+  //   "User created successfully"
+  // );
+
+  return res
+    .status(HttpStatus.CREATED)
+    .json(successResponse(user, "User created successfully"));
 });
 
 export const updateUser = TryCatch(async (req, res, next) => {
-  const id = req.params.id;
-  const reqObj: UserModelType = req.body;
+  const id = isObjectIdValid(req.params.id);
+  const reqObj: UserModelType = validateWithSchema<UserModelType>(
+    userValidSchema,
+    req.body
+  );
 
   const isExist = await uRepo.getUserById(id);
 
@@ -81,7 +90,7 @@ export const updateUser = TryCatch(async (req, res, next) => {
 });
 
 export const deleteUser = TryCatch(async (req, res, next) => {
-  const id = req.params.id;
+  const id = isObjectIdValid(req.params.id);
 
   const isExist = await uRepo.getUserById(id);
 

@@ -36,6 +36,11 @@ export const sendToken = (
     .json(successResponse(user, message));
 };
 
-export const verifyJWTToken = (token: string): JwtPayload => {
-  return jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
+export const verifyJWTToken = async (token: string): Promise<JwtPayload> => {
+  const result = (await jwt.verify(
+    token,
+    process.env.JWT_SECRET as string
+  )) as JwtPayload;
+
+  return result;
 };

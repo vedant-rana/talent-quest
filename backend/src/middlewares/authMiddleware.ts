@@ -9,7 +9,7 @@ import { TryCatch } from "./errorMiddlewares.js";
 export const authorization = TryCatch(async (req: CustomRequest, res, next) => {
   const { token } = req.cookies;
 
-  if (!token) {
+  if (token == null) {
     return next(
       new ErrorHandler(
         "Please login to access this resource",
@@ -18,8 +18,7 @@ export const authorization = TryCatch(async (req: CustomRequest, res, next) => {
     );
   }
 
-  const decodedData = verifyJWTToken(token);
-
+  const decodedData = await verifyJWTToken(token);
   const user = await uRepo.getUserById(decodedData.id);
 
   req.user = user;
