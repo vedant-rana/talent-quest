@@ -3,6 +3,7 @@ import { IUser } from "../types/modelTypes/userModelTypes.js";
 import { successResponse } from "./responseFunction.js";
 import ErrorHandler from "./customError.js";
 import HttpStatus from "./httpStatusCodes.js";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 export const sendToken = (
   res: Response,
@@ -33,4 +34,8 @@ export const sendToken = (
     .status(statusCode)
     .cookie("token", token, options)
     .json(successResponse(user, message));
+};
+
+export const verifyJWTToken = (token: string): JwtPayload => {
+  return jwt.verify(token, process.env.JWT_SECRET as string) as JwtPayload;
 };

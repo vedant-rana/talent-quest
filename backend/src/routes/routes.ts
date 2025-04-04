@@ -1,16 +1,20 @@
 import express from "express";
-import categoryTypeRoutes from "./categoryTypeRoutes.js";
-import userRoleRoutes from "./userRoleRoutes.js";
-import userRoutes from "./userRoutes.js";
 import authRoutes from "./authRoutes.js";
+import masterRoutes from "./masterRoutes/routes.js";
+import {
+  authorization,
+  authorizeRoles,
+} from "../middlewares/authMiddleware.js";
+import { RolesEnum } from "../utils/enums/commonEnums.js";
 
 const router = express.Router();
 
 router.use("/auth", authRoutes);
-
-router.use("/user-role", userRoleRoutes);
-router.use("/user", userRoutes);
-
-router.use("/category-type", categoryTypeRoutes);
+router.use(
+  "/masters",
+  authorization,
+  authorizeRoles(RolesEnum.Admin),
+  masterRoutes
+);
 
 export default router;

@@ -5,7 +5,7 @@ import {
   getAllRoles,
   getRoleById,
   updateUserRole,
-} from "../controllers/userRolesController.js";
+} from "../../controllers/userRolesController.js";
 
 const router = express.Router();
 
