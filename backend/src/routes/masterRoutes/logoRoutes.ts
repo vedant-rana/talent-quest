@@ -1,11 +1,23 @@
 import express from "express";
-import { createLogo } from "../../controllers/logoController.js";
+import {
+  createLogo,
+  deleteLogo,
+  getAllLogos,
+  getLogoById,
+  updateLogo,
+} from "../../controllers/logoController.js";
 import { upload } from "../../config/multer.js";
 
 const router = express.Router();
 
-router.route("/all").get();
-router.route("/new").post(upload.single("logoFile"), createLogo);
-router.route("/:id").get().put().delete();
+router.route("/all").get(getAllLogos);
+
+router.route("/new").post(upload.single("logo"), createLogo);
+
+router
+  .route("/:id")
+  .get(getLogoById)
+  .put(upload.single("logo"), updateLogo)
+  .delete(deleteLogo);
 
 export default router;

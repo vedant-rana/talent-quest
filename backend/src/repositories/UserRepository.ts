@@ -20,12 +20,12 @@ export const UserRepository: IUserRepository = {
   },
 
   async updateUser(id: string, category: UserModelType): Promise<IUser | null> {
-    return User.findByIdAndUpdate(id, category, {
+    return await User.findByIdAndUpdate(id, category, {
       new: true,
     });
   },
 
   async deleteUser(id: string): Promise<IUser | null> {
-    return User.findByIdAndDelete(id);
+    return await User.findByIdAndDelete(id);
   },
 };
