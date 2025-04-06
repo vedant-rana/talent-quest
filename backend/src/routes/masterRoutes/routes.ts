@@ -4,6 +4,7 @@ import userRoutes from "./userRoutes.js";
 import logoRoutes from "./logoRoutes.js";
 import categoryTypeRoutes from "./categoryTypeRoutes.js";
 import categoryRoutes from "./categoryRoutes.js";
+import examRoutes from "./examRoutes.js";
 
 const router = express.Router();
 
@@ -12,5 +13,6 @@ router.use("/user-role", userRoleRoutes);
 router.use("/user", userRoutes);
 router.use("/category-type", categoryTypeRoutes);
 router.use("/category", categoryRoutes);
+router.use("/exam", examRoutes);
 
 export default router;
