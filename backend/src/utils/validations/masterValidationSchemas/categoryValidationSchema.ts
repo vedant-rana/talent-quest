@@ -1,7 +1,10 @@
 import Joi from "joi";
 
-const categoryTypeObject = {
-  categoryTypeName: Joi.string().trim().min(2).max(50).required(),
+const categoryObject = {
+  categoryName: Joi.string().trim().min(2).max(50).required(),
+  description: Joi.string().trim().min(2).max(255).optional(),
+  logo: Joi.string().trim().length(24).hex().required(),
+  type: Joi.string().trim().length(24).hex().required(),
 };
 
-export const categoryTypeValidationSchema = Joi.object(categoryTypeObject);
+export const categoryValidationSchema = Joi.object(categoryObject);

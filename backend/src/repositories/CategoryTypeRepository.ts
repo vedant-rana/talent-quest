@@ -26,7 +26,7 @@ export const CategoryTypeRepository: ICategoryTypeRepository = {
     return await CategoryType.create(category);
   },
 
-  updateCategoryType(
+  async updateCategoryType(
     id: string,
     category: CategoryTypeType
   ): Promise<ICategoryType | null> {
@@ -35,7 +35,7 @@ export const CategoryTypeRepository: ICategoryTypeRepository = {
     });
   },
 
-  deleteCategoryType(id: string): Promise<ICategoryType | null> {
+  async deleteCategoryType(id: string): Promise<ICategoryType | null> {
     return CategoryType.findByIdAndDelete(id);
   },
 };

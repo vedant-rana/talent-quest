@@ -7,10 +7,11 @@ import {
 } from "express";
 import { ControllerType } from "../types/commonTypes.js";
 import { errorResponse } from "../utils/responseFunction.js";
+import { CustomRequest } from "../types/reqResTypes/responseTypes.js";
 
 export const TryCatch =
   (func: ControllerType): RequestHandler =>
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: CustomRequest, res: Response, next: NextFunction) => {
     try {
       await func(req, res, next);
     } catch (err) {

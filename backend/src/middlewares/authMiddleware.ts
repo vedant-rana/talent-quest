@@ -5,6 +5,7 @@ import ErrorHandler from "../utils/customError.js";
 import HttpStatus from "../utils/httpStatusCodes.js";
 import { verifyJWTToken } from "../utils/manageJwtToken.js";
 import { TryCatch } from "./errorMiddlewares.js";
+import { RolesEnum } from "../utils/enums/commonEnums.js";
 
 export const authorization = TryCatch(async (req: CustomRequest, res, next) => {
   const { token } = req.cookies;
@@ -21,13 +22,15 @@ export const authorization = TryCatch(async (req: CustomRequest, res, next) => {
   const decodedData = await verifyJWTToken(token);
   const user = await uRepo.getUserById(decodedData.id);
 
+  // if (user) {
   req.user = user;
+  // }
   next();
 });
 
 export const authorizeRoles = (...roles: number[]) => {
   return (req: CustomRequest, res: Response, next: NextFunction) => {
-    if (!roles.includes(req.user.role)) {
+    if (!roles.includes(Number(req.user?.role || RolesEnum.User))) {
       return next(
         new ErrorHandler(
           `You are not allowed to access this resource`,

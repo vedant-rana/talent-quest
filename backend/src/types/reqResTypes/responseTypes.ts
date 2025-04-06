@@ -1,4 +1,5 @@
 import { Request } from "express";
+import { IUser } from "../modelTypes/userModelTypes.js";
 
 export interface ApiResponse<T> {
   success: boolean;
@@ -8,6 +9,6 @@ export interface ApiResponse<T> {
 }
 
 export interface CustomRequest extends Request {
-  user?: any;
+  user?: IUser | null;
   role?: number;
 }

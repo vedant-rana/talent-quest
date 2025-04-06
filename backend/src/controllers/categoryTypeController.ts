@@ -6,7 +6,7 @@ import { successResponse } from "../utils/responseFunction.js";
 import HttpStatus from "../utils/httpStatusCodes.js";
 import { CategoryTypeRepository as ctRepository } from "../repositories/CategoryTypeRepository.js";
 import { validateWithSchema } from "../utils/validations/validateFunctions.js";
-import { categoryTypeValidationSchema } from "../utils/validations/masterValidationSchemas/categoryValidationSchema.js";
+import { categoryTypeValidationSchema } from "../utils/validations/masterValidationSchemas/categoryTypeValidationSchema.js";
 import { isObjectIdValid } from "../utils/validations/commonValidationSchemas.js";
 
 export const getAllCategoryTypes = TryCatch(async (req, res, next) => {
