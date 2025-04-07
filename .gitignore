@@ -1,4 +1,12 @@
 # backend ignored files
 backend/node_modules
-dist
-.env
+backend/dist
+backend/.env
+
+
+# Client ignores files
+
+client/node_modules
+client/dist
+client/dist-ssr
+

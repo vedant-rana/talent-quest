@@ -1,0 +1,18 @@
+﻿.platform {
+    font-size: 0;
+    margin-bottom: 30px;
+
+    &__icon {
+        display: inline-block;
+        vertical-align: middle;
+
+        & + & {
+            margin-left: 15px;
+        }
+    }
+
+    &__img {
+        width: 25px;
+        height: 25px;
+    }
+}

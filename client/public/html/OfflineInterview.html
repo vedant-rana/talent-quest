@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Invitation</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            color: #641EC4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+            .header h1 {
+                font-size: 32px;
+                color: #641EC4;
+            }
+
+        .congratulations {
+            font-size: 18px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .section {
+            margin: 20px 0;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #641EC4;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .content {
+            margin: 5px 0;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            line-height: 1.6;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            color: #641EC4;
+        }
+
+        .social-media {
+            margin-top: 20px;
+        }
+
+            .social-media a {
+                margin: 0 10px;
+                text-decoration: none;
+                color: #641EC4;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Interview Invitation</h1>
+        </div>
+        <div class="congratulations">
+            <p>Congratulations, {{CandidateName}}!</p>
+            <p>You have successfully cleared the online exam "{{OnlineExamTitle}}" scheduled on {{OnlineExamDate}}.</p>
+            <p>We are pleased to invite you to the onsite interview for the "{{JobTitle}}" position.</p>
+            <p>Your hard work and dedication have paid off, and we are excited to meet you in person.</p>
+        </div>
+        <div class="section">
+            <div class="label">Interview Details:</div>
+            <div class="content">
+                <p><strong>Date:</strong> {{InterviewDate}}</p>
+                <p><strong>Time:</strong> {{InterviewTime}}</p>
+                <p><strong>Location:</strong> {{InterviewAddress}}</p>
+            </div>
+        </div>
+        <div class="section">
+            <div class="label">Company Information:</div>
+            <div class="content">
+                <p><strong>{{CompanyName}}</strong></p>
+                <p>{{CompanyAddress}}</p>
+            </div>
+        </div>
+        <div class="section">
+            <div class="label">Precautions for Interview:</div>
+            <div class="content">
+                <ul>
+                    <li>Arrive at least 15 minutes before the scheduled time to avoid any delays.</li>
+                    <li>Carry a copy of your resume, photo ID, and any other required documents.</li>
+                    <li>Dress professionally to make a positive impression.</li>
+                    <li>Prepare to discuss your experience, skills, and qualifications in detail.</li>
+                    <li>Follow any COVID-19 related guidelines, such as wearing a mask and maintaining social distancing, if applicable.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="section">
+            <div class="label">Contact for Queries:</div>
+            <div class="content">
+                <p>If you have any questions or need further assistance, please contact us at:</p>
+                <p><strong>Phone:</strong> {{ContactNumber}}</p>
+                <p><strong>Email:</strong> {{ContactEmail}}</p>
+            </div>
+        </div>
+        <div class="footer">
+            <div>Follow us on:</div>
+            <div class="social-media">
+                <a href="https://in.linkedin.com/company/silver-touch-technologies-ltd" target="_blank">LinkedIn</a> |
+                <a href="https://www.youtube.com/channel/UCs6STeUzaTLx6bjLqxLamtw" target="_blank">YouTube</a> |
+                <a href="https://www.facebook.com/SilverTouchTechnologies/" target="_blank">Facebook</a>
+            </div>
+            <p>&copy; {{CurrentYear}} {{CompanyName}}. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
