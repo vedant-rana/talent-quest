@@ -8,3 +8,9 @@ export enum ExamLevelEnum {
   Intermediate = "Intermediate",
   Advanced = "Advanced",
 }
+
+export enum QuestionTypeEnum {
+  SingleChoice = "Single Choice",
+  MultipleChoice = "Multiple Choice",
+  Descriptive = "Descriptive",
+}
