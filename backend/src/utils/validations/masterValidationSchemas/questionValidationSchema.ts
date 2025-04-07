@@ -7,7 +7,7 @@ const typeValues = Object.values(QuestionTypeEnum);
 // );
 
 const questionObject = {
-  title: Joi.string().trim().min(2).max(50).required(),
+  title: Joi.string().trim().min(2).max(255).required(),
   note: Joi.string().trim().min(2).max(255).optional(),
   questionType: Joi.string()
     .valid(...typeValues)

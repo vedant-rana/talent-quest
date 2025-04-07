@@ -6,6 +6,7 @@ import categoryTypeRoutes from "./categoryTypeRoutes.js";
 import categoryRoutes from "./categoryRoutes.js";
 import examRoutes from "./examRoutes.js";
 import questionRoutes from "./questionRoutes.js";
+import answerRoutes from "./answerRoutes.js";
 
 const router = express.Router();
 
@@ -16,5 +17,6 @@ router.use("/category-type", categoryTypeRoutes);
 router.use("/category", categoryRoutes);
 router.use("/exam", examRoutes);
 router.use("/question", questionRoutes);
+router.use("/answer", answerRoutes);
 
 export default router;
