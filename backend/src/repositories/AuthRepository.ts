@@ -6,6 +6,7 @@ import { LoginType, SignupType } from "../types/authTypes/authTypes.js";
 export const AuthRepository: IAuthRepository = {
   async login(credentials: LoginType): Promise<IUser | null> {
     const user = await User.findOne({ email: credentials.email });
+
     if (!user) {
       return null;
     }
@@ -15,7 +16,7 @@ export const AuthRepository: IAuthRepository = {
       return null;
     }
 
-    return user;
+    return await User.findOne({ email: credentials.email }).select("-password");
   },
 
   async signup(credentials: SignupType): Promise<IUser | null> {
@@ -37,6 +38,6 @@ export const AuthRepository: IAuthRepository = {
       return null;
     }
 
-    return newUser;
+    return await User.findOne({ email: newUser.email }).select("-password");
   },
 };
