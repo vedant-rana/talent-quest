@@ -8,6 +8,7 @@ import { UserModelType } from "../types/modelTypes/userModelTypes.js";
 import { isObjectIdValid } from "../utils/validations/commonValidationSchemas.js";
 import { validateWithSchema } from "../utils/validations/validateFunctions.js";
 import { userValidSchema } from "../utils/validations/masterValidationSchemas/userValidationSchema.js";
+import { CustomRequest } from "../types/reqResTypes/responseTypes.js";
 
 export const getAllUsers = TryCatch(async (req, res, next) => {
   const roles = await uRepo.getAllUsers();
@@ -106,3 +107,15 @@ export const deleteUser = TryCatch(async (req, res, next) => {
     .status(HttpStatus.OK)
     .json(successResponse(deleted, "User deleted successfully"));
 });
+
+export const getUserDetails = TryCatch(
+  async (req: CustomRequest, res, next) => {
+    const user = req.user;
+
+    if (!user) {
+      return next(new ErrorHandler("User not found", HttpStatus.NOT_FOUND));
+    }
+
+    return res.status(HttpStatus.OK).json(successResponse(user, "User found"));
+  }
+);

@@ -1,6 +1,7 @@
 import { TryCatch } from "../middlewares/errorMiddlewares.js";
 import { AuthRepository } from "../repositories/AuthRepository.js";
 import { LoginType, SignupType } from "../types/authTypes/authTypes.js";
+import { CustomRequest } from "../types/reqResTypes/responseTypes.js";
 import ErrorHandler from "../utils/customError.js";
 import HttpStatus from "../utils/httpStatusCodes.js";
 import { sendToken } from "../utils/manageJwtToken.js";
