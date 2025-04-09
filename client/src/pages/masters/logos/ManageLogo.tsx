@@ -1,15 +1,21 @@
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 import { LogoFormData } from "../../../types/masters/logoTypes";
-import { useAppDispatch } from "../../../hooks/reduxStateHooks";
+import { useAppDispatch, useAppSelector } from "../../../hooks/reduxStateHooks";
 import { createLogo } from "../../../features/masters/logos/logosThunk";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const ManageLogo = () => {
+  const { id } = useParams();
+  const { isLoading, logos } = useAppSelector((state) => state.master.logo);
   const dispatch = useAppDispatch();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<LogoFormData>();
 
   const submitLogoForm = (data: LogoFormData) => {
@@ -21,6 +27,18 @@ const ManageLogo = () => {
 
     dispatch(createLogo(formData));
   };
+
+  useEffect(() => {
+    if (id) {
+      const logo = logos.find((logo) => logo._id === id);
+
+      if (logo) {
+        reset({
+          name: logo.name,
+        });
+      }
+    }
+  }, [id]);
 
   return (
     <>
@@ -73,9 +91,12 @@ const ManageLogo = () => {
                 </div>
 
                 <div className="form-group mt-4 d-flex justify-content-between">
-                  <a asp-action="Index" className="btn backBtnBg w-50 mr-2">
+                  <Link
+                    to={"/masters/logos"}
+                    className="btn backBtnBg w-50 mr-2"
+                  >
                     Back to List
-                  </a>
+                  </Link>
                   <input
                     type="submit"
                     value="Create"

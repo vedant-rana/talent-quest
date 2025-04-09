@@ -4,7 +4,9 @@ export type LogoFormData = {
 };
 
 export type Logo = {
-  _id: number;
+  _id: string;
   name: string;
   logoUrl: string;
+  createdAt: string;
+  updatedAt: string;
 };

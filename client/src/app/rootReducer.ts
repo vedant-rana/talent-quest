@@ -3,7 +3,7 @@ import masterReducer from "../features/masters/masterReducer";
 import userReducer from "../features/users/userSlice";
 
 const rootReducer = combineReducers({
-  // master: masterReducer,
+  master: masterReducer,
   user: userReducer,
 });
 

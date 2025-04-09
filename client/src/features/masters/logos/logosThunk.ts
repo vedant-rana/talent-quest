@@ -22,3 +22,43 @@ export const createLogo = createAsyncThunk<Logo, FormData>(
     }
   }
 );
+
+export const loadAllLogos = createAsyncThunk<Logo[]>(
+  "logo/all",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await api.get("/masters/logo/all");
+      var result: ApiResType = res.data as ApiResType;
+
+      if (!result.success)
+        return rejectWithValue(result.message || "Logo Fetching Failed");
+
+      return result.data as Logo[];
+    } catch (error: any) {
+      console.log("Error in logo creation => ", error);
+      return rejectWithValue(
+        error.response?.data?.message || error.message || "Something went wrong"
+      );
+    }
+  }
+);
+
+export const loadLogo = createAsyncThunk<Logo, string>(
+  "logo/single",
+  async (id, { rejectWithValue }) => {
+    try {
+      const res = await api.get(`/masters/logo/${id}`);
+      var result: ApiResType = res.data as ApiResType;
+
+      if (!result.success)
+        return rejectWithValue(result.message || "Logo Fetching Failed");
+
+      return result.data as Logo;
+    } catch (error: any) {
+      console.log("Error in logo creation => ", error);
+      return rejectWithValue(
+        error.response?.data?.message || error.message || "Something went wrong"
+      );
+    }
+  }
+);

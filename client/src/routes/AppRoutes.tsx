@@ -15,6 +15,8 @@ const AppRoutes = () => {
       <Route path="/masters">
         <Route path="logos" element={<Logo />} />
         <Route path="logos/manage" element={<ManageLogo />} />
+        <Route path="logos/manage/:id" element={<ManageLogo />} />
+        {/* Add other routes here */}
         <Route path="categories" />
       </Route>
     </Routes>
