@@ -39,6 +39,38 @@ const Navbar = () => {
                       Contact
                     </Link>
                   </li>
+                  <li className="nav__li nav__li--dropdown">
+                    <a href="#" className="nav__link">
+                      Masters
+                    </a>
+                    <ul className="dropdown">
+                      <li>
+                        <Link to={"/masters/logos"} className="nav__link">
+                          Logo
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to={"/masters/categories"} className="nav__link">
+                          Category
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to={"/masters/exams"} className="nav__link">
+                          Exam
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to={"/masters/questions"} className="nav__link">
+                          Questions
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to={"/masters/answers"} className="nav__link">
+                          Answers
+                        </Link>
+                      </li>
+                    </ul>
+                  </li>
                   <li className="nav__li">
                     {!isLoading && isAuthenticated ? (
                       <button
