@@ -1,20 +1,32 @@
-import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxStateHooks";
 import { loginUser } from "../../features/users/userThunks";
+import { useForm } from "react-hook-form";
+import { LoginFormData } from "../../types/auth/loginTypes";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  const { isLoading, user } = useAppSelector((state) => state.user);
+  const navigate = useNavigate();
+  const { isLoading, isAuthenticated } = useAppSelector((state) => state.user);
+  const [showPassword, setShowPassword] = useState(false);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>();
 
-  const handleLogin = (e: React.FormEvent) => {
-    console.log("Login form submitted");
-    e.preventDefault();
-    dispatch(loginUser({ email, password }));
-    console.log("logged in User =>  ", user);
+  const handleLogin = (credentials: LoginFormData) => {
+    dispatch(loginUser(credentials));
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <div className="content__fixed">
@@ -29,7 +41,7 @@ const Login = () => {
               />
             </div>
             <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-              <form className="form" onSubmit={handleLogin}>
+              <form className="form" onSubmit={handleSubmit(handleLogin)}>
                 {/* <input type="hidden" name="ReturnUrl" value="@ViewContext.HttpContext.Request.Query["ReturnUrl"]" /> */}
                 <div className="divider d-flex align-items-center my-4">
                   <p
@@ -51,10 +63,17 @@ const Login = () => {
                     type="email"
                     className="form-control form-control-lg"
                     placeholder="Enter a valid email address"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /^\S+@\S+$/i,
+                        message: "Invalid email address",
+                      },
+                    })}
                   />
+                  {errors.email && (
+                    <span className="text-danger">{errors.email.message}</span>
+                  )}
                 </div>
 
                 <div className="form-outline mb-3 position-relative">
@@ -65,21 +84,28 @@ const Login = () => {
                     Password
                   </label>
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     className="form-control form-control-lg"
                     placeholder="Enter password"
                     id="passwordInput"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
+                    {...register("password", {
+                      required: "Password is required",
+                    })}
                   />
+                  {errors.password && (
+                    <span className="text-danger">
+                      {errors.password.message}
+                    </span>
+                  )}
                   <button
                     type="button"
                     id="togglePassword"
                     className="position-absolute btn-icon"
                     style={{ right: "10px", top: "46px" }}
+                    onClick={() => setShowPassword(!showPassword)}
                   >
-                    <i className="fas fa-eye" id="eyeIcon"></i>
+                    {/* <i className="fas fa-eye" id="eyeIcon"></i> */}
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
                   </button>
                 </div>
                 <div className="text-center text-lg-start mt-4 pt-2">

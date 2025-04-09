@@ -9,6 +9,7 @@ export interface User {
 
 export interface UserState {
   user: User | null;
+  isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
 }
