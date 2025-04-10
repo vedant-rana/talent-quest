@@ -50,6 +50,14 @@ const Navbar = () => {
                         </Link>
                       </li>
                       <li>
+                        <Link
+                          to={"/masters/category-type"}
+                          className="nav__link"
+                        >
+                          Category Types
+                        </Link>
+                      </li>
+                      <li>
                         <Link to={"/masters/categories"} className="nav__link">
                           Category
                         </Link>

@@ -5,6 +5,8 @@ import Login from "../pages/auth/Login";
 import Contact from "../pages/Contacts";
 import Logo from "../pages/masters/logos/Logo";
 import ManageLogo from "../pages/masters/logos/ManageLogo";
+import CategoryTypeList from "../pages/masters/categoryType/CategoryType";
+import ManageCategoryType from "../pages/masters/categoryType/ManageCategoryType";
 
 const AppRoutes = () => {
   return (
@@ -16,7 +18,13 @@ const AppRoutes = () => {
         <Route path="logos" element={<Logo />} />
         <Route path="logos/manage" element={<ManageLogo />} />
         <Route path="logos/manage/:id" element={<ManageLogo />} />
-        {/* Add other routes here */}
+
+        <Route path="category-type" element={<CategoryTypeList />} />
+        <Route path="category-type/manage" element={<ManageCategoryType />} />
+        <Route
+          path="category-type/manage/:id"
+          element={<ManageCategoryType />}
+        />
         <Route path="categories" />
       </Route>
     </Routes>

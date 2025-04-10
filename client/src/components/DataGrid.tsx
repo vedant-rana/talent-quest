@@ -1,5 +1,5 @@
 import { DataGrid } from "@mui/x-data-grid";
-import { Box } from "@mui/material";
+import { Backdrop, Box, CircularProgress } from "@mui/material";
 
 // const columns = [
 //   { field: "id", headerName: "ID", width: 90 },
@@ -37,9 +37,11 @@ import { Box } from "@mui/material";
 export default function DataTable({
   columns,
   data,
+  loading,
 }: {
   columns: any[];
   data: any[];
+  loading: boolean;
 }) {
   return (
     <Box sx={{ height: 500, width: "100%" }}>
@@ -89,6 +91,22 @@ export default function DataTable({
           },
         }}
       />
+
+      <Backdrop
+        open={loading}
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          zIndex: 10,
+          color: "#fff",
+          backgroundColor: "rgba(0,0,0,0.3)",
+          height: "100%",
+          width: "100%",
+        }}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Box>
   );
 }

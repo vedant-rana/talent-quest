@@ -119,11 +119,11 @@ const Logo = () => {
             style={{ maxHeight: "700px" }}
           >
             {/* <table className="table" id="LogoList"></table> */}
-            {isLoading ? (
+            {/* {isLoading ? (
               <p> Loading .... </p>
-            ) : (
-              <DataTable columns={columns} data={logos} />
-            )}
+            ) : ( */}
+            <DataTable columns={columns} data={logos} loading={isLoading} />
+            {/* )} */}
           </div>
         </div>
       </section>

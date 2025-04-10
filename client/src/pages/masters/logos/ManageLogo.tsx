@@ -134,7 +134,7 @@ const ManageLogo = () => {
                   </Link>
                   <input
                     type="submit"
-                    value="Create"
+                    value={id ? "Update" : "Create"}
                     className="btn actionBtnBg w-50 ml-2 text-white"
                   />
                 </div>
