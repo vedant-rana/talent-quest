@@ -1,6 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { LogoState } from "./logoTypes";
-import { createLogo, loadAllLogos, loadLogo } from "./logosThunk";
+import {
+  createLogo,
+  deleteLogo,
+  loadAllLogos,
+  loadLogo,
+  updateLogo,
+} from "./logosThunk";
+import { Logo } from "../../../types/masters/logoTypes";
 
 const initialState: LogoState = {
   logos: [],
@@ -20,7 +27,7 @@ const logoSlice = createSlice({
       })
       .addCase(createLogo.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.logos.push(action.payload);
+        state.logos.push(action.payload.data as Logo);
         state.error = null;
       })
       .addCase(createLogo.rejected, (state, action) => {
@@ -63,6 +70,45 @@ const logoSlice = createSlice({
         state.error = null;
       })
       .addCase(loadLogo.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message || "Something went wrong!";
+      });
+
+    builder
+      .addCase(updateLogo.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateLogo.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.logos = state.logos.map((logo) => {
+          const logoObj = action.payload.data as Logo;
+          if (logo._id === (logoObj._id as string)) {
+            return logoObj;
+          }
+          return logo;
+        });
+        state.error = null;
+      })
+      .addCase(updateLogo.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message || "Something went wrong!";
+      });
+
+    builder
+      .addCase(deleteLogo.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(deleteLogo.fulfilled, (state, action) => {
+        state.isLoading = false;
+        const deletedLogo = action.payload.data as Logo;
+        state.logos = state.logos.filter(
+          (logo) => logo._id !== deletedLogo._id
+        );
+        state.error = null;
+      })
+      .addCase(deleteLogo.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message || "Something went wrong!";
       });

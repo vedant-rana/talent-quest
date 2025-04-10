@@ -9,6 +9,7 @@ import { isObjectIdValid } from "../utils/validations/commonValidationSchemas.js
 import ErrorHandler from "../utils/customError.js";
 import { CommonRepository } from "../repositories/CommonRepository.js";
 import mongoose from "mongoose";
+import { DEFAULT_LOGO_URL } from "../utils/constants/commonConstants.js";
 
 const getUrlPath = (fileName: string) => {
   return `uploads/logos/${fileName}`;
@@ -99,7 +100,9 @@ export const updateLogo = TryCatch(async (req, res, next) => {
   });
 
   if (isExistWithOtherParams) {
-    CommonRepository.deleteFileFromServer(reqObj.logoUrl);
+    if (reqObj.logoUrl != DEFAULT_LOGO_URL) {
+      CommonRepository.deleteFileFromServer(reqObj.logoUrl);
+    }
     return next(new ErrorHandler(`Logo already Exists!!`, HttpStatus.CONFLICT));
   }
 
@@ -107,7 +110,10 @@ export const updateLogo = TryCatch(async (req, res, next) => {
   const updated = await logoRepo.updateLogo(id, reqObj);
 
   if (updated != null) {
-    if (previousLogoUrl !== updated.logoUrl) {
+    if (
+      previousLogoUrl !== DEFAULT_LOGO_URL &&
+      previousLogoUrl !== updated.logoUrl
+    ) {
       CommonRepository.deleteFileFromServer(previousLogoUrl);
     }
   }
@@ -131,7 +137,9 @@ export const deleteLogo = TryCatch(async (req, res, next) => {
   const deleted = await logoRepo.deleteLogo(id);
 
   if (deleted != null) {
-    CommonRepository.deleteFileFromServer(deleted.logoUrl);
+    if (deleted.logoUrl !== DEFAULT_LOGO_URL) {
+      CommonRepository.deleteFileFromServer(deleted.logoUrl);
+    }
   }
 
   return res

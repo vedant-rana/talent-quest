@@ -1,5 +1,6 @@
 import { Model, Schema, model } from "mongoose";
 import { ILogo } from "../types/modelTypes/logoTypes.js";
+import { DEFAULT_LOGO_URL } from "../utils/constants/commonConstants.js";
 
 const logoSchema: Schema = new Schema<ILogo>(
   {
@@ -9,7 +10,7 @@ const logoSchema: Schema = new Schema<ILogo>(
     },
     logoUrl: {
       type: String,
-      default: "defaultUrl",
+      default: DEFAULT_LOGO_URL,
     },
   },
   {

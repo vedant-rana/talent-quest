@@ -1,15 +1,23 @@
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { LogoFormData } from "../../../types/masters/logoTypes";
 import { useAppDispatch, useAppSelector } from "../../../hooks/reduxStateHooks";
-import { createLogo } from "../../../features/masters/logos/logosThunk";
-import { useEffect } from "react";
+import {
+  createLogo,
+  loadLogo,
+  updateLogo,
+} from "../../../features/masters/logos/logosThunk";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { STATIC_API } from "../../../config/envConstants";
+import { toast } from "react-toastify";
 
 const ManageLogo = () => {
   const { id } = useParams();
-  const { isLoading, logos } = useAppSelector((state) => state.master.logo);
+  const { logos } = useAppSelector((state) => state.master.logo);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [logoUrl, setLogoUrl] = useState("");
 
   const {
     register,
@@ -18,27 +26,46 @@ const ManageLogo = () => {
     reset,
   } = useForm<LogoFormData>();
 
-  const submitLogoForm = (data: LogoFormData) => {
+  const submitLogoForm = async (data: LogoFormData) => {
     const formData = new FormData();
     formData.append("name", data.name);
-    if (data.logo) {
+    if (data.logo && data.logo.length > 0 && data.logo[0]) {
       formData.append("logo", data.logo[0]);
     }
 
-    dispatch(createLogo(formData));
+    try {
+      const result = await (id
+        ? dispatch(updateLogo({ id, formData }))
+        : dispatch(createLogo(formData))
+      ).unwrap();
+
+      if (result.success) {
+        toast.success(result.message || "Logo Operation done Successfully");
+        reset();
+        navigate("/masters/logos");
+      } else {
+        toast.error(result.message || "Logo Operation Failed");
+      }
+    } catch (error) {
+      toast.error("Something went wrong, please try again later");
+    }
   };
 
   useEffect(() => {
+    console.log("logo useEffect");
     if (id) {
       const logo = logos.find((logo) => logo._id === id);
 
       if (logo) {
+        setLogoUrl(logo.logoUrl);
         reset({
           name: logo.name,
         });
+      } else {
+        dispatch(loadLogo(id));
       }
     }
-  }, [id]);
+  }, [id, logoUrl, logos, reset, dispatch]);
 
   return (
     <>
@@ -81,12 +108,20 @@ const ManageLogo = () => {
                     type="file"
                     className="form-control"
                     accept="image/*"
-                    {...register("logo", {
-                      required: "Logo is required",
-                    })}
+                    {...register("logo")}
                   />
                   {errors.logo && (
                     <span className="text-danger">{errors.logo.message}</span>
+                  )}
+                </div>
+                <div className="form-group mb-3">
+                  {id && (
+                    <img
+                      src={`${STATIC_API}/${logoUrl}`}
+                      className="img-thumbnail"
+                      alt="Current Logo"
+                      style={{ width: "150px", height: "auto" }}
+                    />
                   )}
                 </div>
 

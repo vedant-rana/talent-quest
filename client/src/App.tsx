@@ -1,7 +1,8 @@
+import { useEffect } from "react";
+import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { useAppDispatch } from "./hooks/reduxStateHooks";
-import { useEffect } from "react";
 import { loadUser } from "./features/users/userThunks";
 import AppRoutes from "./routes/AppRoutes";
 

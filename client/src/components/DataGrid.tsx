@@ -38,11 +38,11 @@ export default function DataTable({
   columns,
   data,
 }: {
-  columns: any;
-  data: any;
+  columns: any[];
+  data: any[];
 }) {
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
+    <Box sx={{ height: 500, width: "100%" }}>
       <DataGrid
         rows={data}
         columns={columns}
@@ -56,6 +56,38 @@ export default function DataTable({
           },
         }}
         className="table"
+        sx={{
+          borderRadius: 2,
+          boxShadow: 1,
+          border: "1px solid #e0e0e0",
+          "& .MuiDataGrid-columnHeaders": {
+            backgroundColor: "#efe8f9 !important",
+            color: "#333",
+            fontWeight: "bold",
+            fontSize: "1rem",
+          },
+          "& .MuiDataGrid-columnSeparator": {
+            display: "none",
+          },
+          "& .MuiDataGrid-columnHeaderTitle": {
+            fontWeight: "bold",
+            color: "#333",
+          },
+
+          "& .MuiDataGrid-cell": {
+            borderBottom: "1px solid #ddd",
+            fontSize: "0.95rem",
+          },
+          "& .MuiDataGrid-row": {
+            backgroundColor: "#fff",
+            "&:hover": {
+              backgroundColor: "#f5f5ff",
+            },
+          },
+          "& .MuiDataGrid-footerContainer": {
+            backgroundColor: "#f9f9f9",
+          },
+        }}
       />
     </Box>
   );
