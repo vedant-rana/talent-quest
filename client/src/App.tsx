@@ -9,6 +9,7 @@ import AppRoutes from "./routes/AppRoutes";
 function App() {
   const dispatch = useAppDispatch();
 
+  // test commit
   useEffect(() => {
     dispatch(loadUser());
   }, [dispatch]);
