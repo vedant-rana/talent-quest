@@ -17,6 +17,10 @@ const userRoleSchema: Schema = new Schema<IUserRole>(
       type: Boolean,
       default: true,
     },
+    isDeactivatable: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,

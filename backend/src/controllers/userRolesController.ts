@@ -1,10 +1,16 @@
 import mongoose from "mongoose";
 import { TryCatch } from "../middlewares/errorMiddlewares.js";
 import { USerRoleRepository as urRepository } from "../repositories/UserRoleReporistory.js";
-import { UserRoleModelType } from "../types/modelTypes/userRoleModelTypes.js";
+import {
+  UserRoleModel,
+  UserRoleModelType,
+} from "../types/modelTypes/userRoleModelTypes.js";
 import ErrorHandler from "../utils/customError.js";
 import HttpStatus from "../utils/httpStatusCodes.js";
 import { successResponse } from "../utils/responseFunction.js";
+import { isObjectIdValid } from "../utils/validations/commonValidationSchemas.js";
+import { validateWithSchema } from "../utils/validations/validateFunctions.js";
+import { userRoleValidSchema } from "../utils/validations/masterValidationSchemas/userRoleValidationSchema.js";
 
 export const getAllRoles = TryCatch(async (req, res, next) => {
   const roles = await urRepository.getAllUserRoles();
@@ -15,7 +21,7 @@ export const getAllRoles = TryCatch(async (req, res, next) => {
 });
 
 export const getRoleById = TryCatch(async (req, res, next) => {
-  const id = req.params.id;
+  const id = isObjectIdValid(req.params.id);
 
   const role = await urRepository.getUserRoleById(id);
 
@@ -29,10 +35,12 @@ export const getRoleById = TryCatch(async (req, res, next) => {
 });
 
 export const createRole = TryCatch(async (req, res, next) => {
-  const reqObj: UserRoleModelType = { ...req.body, isActive: true };
+  const reqObj: UserRoleModelType = validateWithSchema<UserRoleModelType>(
+    userRoleValidSchema,
+    req.body
+  );
 
   const isExist = await urRepository.getUserRoleByCustomObj({
-    roleCode: reqObj.roleCode,
     roleName: reqObj.roleName,
   });
 
@@ -42,7 +50,14 @@ export const createRole = TryCatch(async (req, res, next) => {
     );
   }
 
-  const role = await urRepository.createUserRole(reqObj);
+  const nextRolecode = await urRepository.getNextRoleCode();
+  const dataObj: UserRoleModel = {
+    ...reqObj,
+    isDeactivatable: true,
+    roleCode: nextRolecode,
+  };
+
+  const role = await urRepository.createUserRole(dataObj);
 
   return res
     .status(HttpStatus.CREATED)
@@ -50,8 +65,12 @@ export const createRole = TryCatch(async (req, res, next) => {
 });
 
 export const updateUserRole = TryCatch(async (req, res, next) => {
-  const id = req.params.id;
-  const reqObj: UserRoleModelType = req.body;
+  const id = isObjectIdValid(req.params.id);
+  // const reqObj: UserRoleModelType = req.body;
+  const reqObj: UserRoleModelType = validateWithSchema(
+    userRoleValidSchema,
+    req.body
+  );
 
   const isExist = await urRepository.getUserRoleById(id);
 
@@ -59,19 +78,30 @@ export const updateUserRole = TryCatch(async (req, res, next) => {
     return next(new ErrorHandler("Role not found", HttpStatus.NOT_FOUND));
   }
 
+  if (!isExist.isDeactivatable) {
+    return next(
+      new ErrorHandler(`This Role can't be Modified`, HttpStatus.UNAUTHORIZED)
+    );
+  }
+
   const isExistWithOtherParams = await urRepository.getUserRoleByCustomObj({
-    roleCode: reqObj.roleCode,
     roleName: reqObj.roleName,
     _id: { $ne: new mongoose.Types.ObjectId(id) },
   });
 
   if (isExistWithOtherParams) {
     return next(
-      new ErrorHandler(`User Role already Exists!!`, HttpStatus.CONFLICT)
+      new ErrorHandler(`User Role Name already Exists!!`, HttpStatus.CONFLICT)
     );
   }
 
-  const updatedRole = await urRepository.updateUserRole(id, reqObj);
+  const dataObj: UserRoleModel = {
+    ...reqObj,
+    isDeactivatable: isExist.isDeactivatable,
+    roleCode: isExist.roleCode,
+  };
+
+  const updatedRole = await urRepository.updateUserRole(id, dataObj);
 
   return res
     .status(HttpStatus.OK)
@@ -79,13 +109,19 @@ export const updateUserRole = TryCatch(async (req, res, next) => {
 });
 
 export const deleteUserRole = TryCatch(async (req, res, next) => {
-  const id = req.params.id;
+  const id = isObjectIdValid(req.params.id);
 
   const isExist = await urRepository.getUserRoleById(id);
 
   if (!isExist) {
     return next(
       new ErrorHandler(`Role with id: ${id} not found`, HttpStatus.NOT_FOUND)
+    );
+  }
+
+  if (!isExist.isDeactivatable) {
+    return next(
+      new ErrorHandler(`This Role can't be Deleted`, HttpStatus.UNAUTHORIZED)
     );
   }
 

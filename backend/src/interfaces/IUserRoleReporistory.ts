@@ -1,6 +1,6 @@
 import {
   IUserRole,
-  UserRoleModelType,
+  UserRoleModel,
 } from "../types/modelTypes/userRoleModelTypes.js";
 
 export interface IUserRoleRepository {
@@ -10,12 +10,14 @@ export interface IUserRoleRepository {
 
   getUserRoleByCustomObj(searchObj: object): Promise<IUserRole | null>;
 
-  createUserRole(category: UserRoleModelType): Promise<IUserRole | null>;
+  createUserRole(category: UserRoleModel): Promise<IUserRole | null>;
 
   updateUserRole(
     id: string,
-    category: UserRoleModelType
+    category: UserRoleModel
   ): Promise<IUserRole | null>;
 
   deleteUserRole(id: string): Promise<IUserRole | null>;
+
+  getNextRoleCode(): Promise<number>;
 }

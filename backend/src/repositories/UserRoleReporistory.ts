@@ -2,7 +2,7 @@ import { IUserRoleRepository } from "../interfaces/IUserRoleReporistory.js";
 import UserRole from "../models/userRoleModel.js";
 import {
   IUserRole,
-  UserRoleModelType,
+  UserRoleModel,
 } from "../types/modelTypes/userRoleModelTypes.js";
 
 export const USerRoleRepository: IUserRoleRepository = {
@@ -18,13 +18,13 @@ export const USerRoleRepository: IUserRoleRepository = {
     return await UserRole.findOne(searchObj);
   },
 
-  async createUserRole(role: UserRoleModelType): Promise<IUserRole | null> {
+  async createUserRole(role: UserRoleModel): Promise<IUserRole | null> {
     return await UserRole.create(role);
   },
 
   async updateUserRole(
     id: string,
-    role: UserRoleModelType
+    role: UserRoleModel
   ): Promise<IUserRole | null> {
     return UserRole.findByIdAndUpdate(id, role, {
       new: true,
@@ -33,5 +33,13 @@ export const USerRoleRepository: IUserRoleRepository = {
 
   async deleteUserRole(id: string): Promise<IUserRole | null> {
     return UserRole.findByIdAndDelete(id);
+  },
+
+  async getNextRoleCode(): Promise<number> {
+    const maxRole: IUserRole = await UserRole.findOne()
+      .sort({ roleCode: -1 })
+      .select("roleCode");
+
+    return maxRole ? maxRole.roleCode + 1 : 1;
   },
 };
