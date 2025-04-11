@@ -50,6 +50,11 @@ const Navbar = () => {
                         </Link>
                       </li>
                       <li>
+                        <Link to={"/masters/user-roles"} className="nav__link">
+                          Roles
+                        </Link>
+                      </li>
+                      <li>
                         <Link
                           to={"/masters/category-type"}
                           className="nav__link"

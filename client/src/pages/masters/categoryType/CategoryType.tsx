@@ -4,7 +4,7 @@ import { IconButton, Tooltip } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useEffect, useState } from "react";
-import { CategoryType } from "../../../types/masters/categoryTypes";
+import { CategoryType } from "../../../types/masters/categoryTypeTypes";
 import {
   deleteCategoryType,
   getAllCategoryTypes,

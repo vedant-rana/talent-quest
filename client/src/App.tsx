@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import { useAppDispatch } from "./hooks/reduxStateHooks";
 import { loadUser } from "./features/users/userThunks";
 import AppRoutes from "./routes/AppRoutes";
+import Toaster from "./utils/Toaster";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -23,6 +24,7 @@ function App() {
           <Footer />
         </div>
       </div>
+      <Toaster />
     </>
   );
 }

@@ -1,16 +1,20 @@
-import { useForm } from "react-hook-form";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { CategoryTypeFormData } from "../../../types/masters/categoryTypeTypes";
-import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
-  createCategoryType,
-  getCatoryTypeById,
-  updateCategoryType,
-} from "../../../api/services/categoryTypeServices";
+  UserRole,
+  UserRoleFormData,
+} from "../../../types/masters/userRoleTypes";
+import { useForm } from "react-hook-form";
 import { ApiResType } from "../../../types/apiReqResTypes";
+import {
+  createRole,
+  getRoleById,
+  updateRole,
+} from "../../../api/services/userRolesServices";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
-const ManageCategoryType = () => {
+const ManageRole = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -19,18 +23,18 @@ const ManageCategoryType = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<CategoryTypeFormData>();
+  } = useForm<UserRoleFormData>();
 
-  const submitForm = async (data: CategoryTypeFormData) => {
+  const submitForm = async (data: UserRoleFormData) => {
     try {
       const result: ApiResType = await (id
-        ? updateCategoryType(id, data)
-        : createCategoryType(data));
+        ? updateRole(id, data)
+        : createRole(data));
 
       if (result.success) {
         toast.success(result.message);
         reset();
-        navigate("/masters/category-type");
+        navigate("/masters/user-roles");
       } else {
         toast.error(result.message);
       }
@@ -41,12 +45,12 @@ const ManageCategoryType = () => {
 
   const bindDataObject = async (id: string) => {
     try {
-      const result: ApiResType = await getCatoryTypeById(id);
-
+      const result: ApiResType = await getRoleById(id);
+      const dataObj: UserRole = result.data as UserRole;
       if (result.success) {
         reset({
-          categoryTypeName: (result.data as CategoryTypeFormData)
-            .categoryTypeName,
+          roleName: dataObj.roleName,
+          isActive: dataObj.isActive,
         });
       } else {
         toast.error(result.message);
@@ -85,20 +89,35 @@ const ManageCategoryType = () => {
                   </label>
                   <input
                     className="form-control"
-                    {...register("categoryTypeName", {
+                    {...register("roleName", {
                       required: "Name is required",
                       maxLength: {
-                        value: 50,
-                        message: "Name cannot exceed 50 characters",
+                        value: 20,
+                        message: "Name cannot exceed 20 characters",
                       },
                     })}
                   />
-                  {errors.categoryTypeName && (
+                  {errors.roleName && (
                     <span className="text-danger">
-                      {errors.categoryTypeName.message}
+                      {errors.roleName.message}
                     </span>
                   )}
                 </div>
+
+                <div className="form-check mb-3">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    {...register("isActive")}
+                  />
+                  <label
+                    className="form-check-label ml-2"
+                    htmlFor="flexCheckDefault"
+                  >
+                    Is Active
+                  </label>
+                </div>
+
                 <div className="form-group mt-4 d-flex justify-content-between">
                   <Link
                     to={"/masters/category-type"}
@@ -121,4 +140,4 @@ const ManageCategoryType = () => {
   );
 };
 
-export default ManageCategoryType;
+export default ManageRole;
