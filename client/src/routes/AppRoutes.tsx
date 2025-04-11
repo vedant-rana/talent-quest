@@ -7,6 +7,9 @@ import Logo from "../pages/masters/logos/Logo";
 import ManageLogo from "../pages/masters/logos/ManageLogo";
 import CategoryTypeList from "../pages/masters/categoryType/CategoryType";
 import ManageCategoryType from "../pages/masters/categoryType/ManageCategoryType";
+import { RolesEnum } from "../utils/enums/roleEnums";
+import RolesList from "../pages/masters/userRoles/Role";
+import ManageRole from "../pages/masters/userRoles/ManageRole";
 
 const AppRoutes = () => {
   return (
@@ -15,17 +18,26 @@ const AppRoutes = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/masters">
-        <Route path="logos" element={<Logo />} />
+        {/* logos routes */}
+        <Route
+          path="logos"
+          element={ProtectedRoute(<Logo />, [RolesEnum.Admin])}
+        />
         <Route path="logos/manage" element={<ManageLogo />} />
         <Route path="logos/manage/:id" element={<ManageLogo />} />
 
+        {/* category-type routes */}
         <Route path="category-type" element={<CategoryTypeList />} />
         <Route path="category-type/manage" element={<ManageCategoryType />} />
         <Route
           path="category-type/manage/:id"
           element={<ManageCategoryType />}
         />
-        <Route path="categories" />
+
+        {/* user-roles routes */}
+        <Route path="user-roles" element={<RolesList />} />
+        <Route path="user-roles/manage" element={<ManageRole />} />
+        <Route path="user-roles/manage/:id" element={<ManageRole />} />
       </Route>
     </Routes>
   );
