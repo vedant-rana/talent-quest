@@ -118,12 +118,7 @@ const Logo = () => {
             className="orderTable shadow-lg p-4"
             style={{ maxHeight: "700px" }}
           >
-            {/* <table className="table" id="LogoList"></table> */}
-            {/* {isLoading ? (
-              <p> Loading .... </p>
-            ) : ( */}
             <DataTable columns={columns} data={logos} loading={isLoading} />
-            {/* )} */}
           </div>
         </div>
       </section>

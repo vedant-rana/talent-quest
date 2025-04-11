@@ -10,6 +10,8 @@ import ManageCategoryType from "../pages/masters/categoryType/ManageCategoryType
 import { RolesEnum } from "../utils/enums/roleEnums";
 import RolesList from "../pages/masters/userRoles/Role";
 import ManageRole from "../pages/masters/userRoles/ManageRole";
+import CategoryList from "../pages/masters/category/Category";
+import ManageCategory from "../pages/masters/category/ManageCategory";
 
 const AppRoutes = () => {
   return (
@@ -38,6 +40,11 @@ const AppRoutes = () => {
         <Route path="user-roles" element={<RolesList />} />
         <Route path="user-roles/manage" element={<ManageRole />} />
         <Route path="user-roles/manage/:id" element={<ManageRole />} />
+
+        {/* categories routes */}
+        <Route path="categories" element={<CategoryList />} />
+        <Route path="categories/manage" element={<ManageCategory />} />
+        <Route path="categories/manage/:id" element={<ManageCategory />} />
       </Route>
     </Routes>
   );
