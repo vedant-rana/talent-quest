@@ -87,8 +87,50 @@ export default function DataTable({
               backgroundColor: "#f5f5ff",
             },
           },
+          // "& .MuiDataGrid-footerContainer": {
+          //   backgroundColor: "#f9f9f9",
+          // },
           "& .MuiDataGrid-footerContainer": {
-            backgroundColor: "#f9f9f9",
+            backgroundColor: "#f0f0f0",
+            borderTop: "1px solid #ccc",
+            minHeight: "56px",
+            px: 2,
+            display: "flex",
+            alignItems: "center !important", // force vertical centering
+            justifyContent: "space-between",
+          },
+
+          // "Rows per page" text
+          "& .MuiTablePagination-selectLabel": {
+            fontSize: "0.875rem",
+            color: "#555",
+            display: "flex",
+            alignItems: "center",
+          },
+
+          // Dropdown styling
+          "& .MuiTablePagination-select": {
+            fontSize: "0.875rem",
+            backgroundColor: "#fff",
+            borderRadius: "6px",
+            padding: "4px 10px",
+            display: "flex",
+            alignItems: "center",
+          },
+
+          // "1–5 of 20" text
+          "& .MuiTablePagination-displayedRows": {
+            fontSize: "0.875rem",
+            color: "#333",
+            display: "flex",
+            alignItems: "center",
+          },
+
+          // Pagination arrows
+          "& .MuiTablePagination-actions": {
+            display: "flex",
+            alignItems: "center",
+            color: "#673ab7",
           },
         }}
       />

@@ -1,6 +1,12 @@
 import { IExamRepository } from "../interfaces/IExamRepository.js";
 import Exam from "../models/examModel.js";
 import { ExamModelType, IExam } from "../types/modelTypes/examModelTypes.js";
+import { DropDownListItem } from "../types/commonTypes.js";
+import {
+  enumToDropDownList,
+  getEnumValues,
+} from "../utils/enums/enumHelper.js";
+import { ExamLevelEnum } from "../utils/enums/commonEnums.js";
 
 export const ExamRepository: IExamRepository = {
   async getAllExams(): Promise<IExam[]> {
@@ -35,5 +41,10 @@ export const ExamRepository: IExamRepository = {
 
   async deleteExam(id: string): Promise<IExam | null> {
     return Exam.findByIdAndDelete(id);
+  },
+
+  async getExamTypes(): Promise<DropDownListItem[]> {
+    const list: DropDownListItem[] = enumToDropDownList(ExamLevelEnum);
+    return list;
   },
 };

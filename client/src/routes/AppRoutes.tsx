@@ -12,6 +12,8 @@ import RolesList from "../pages/masters/userRoles/Role";
 import ManageRole from "../pages/masters/userRoles/ManageRole";
 import CategoryList from "../pages/masters/category/Category";
 import ManageCategory from "../pages/masters/category/ManageCategory";
+import ExamList from "../pages/masters/exam/Exam";
+import ManageExam from "../pages/masters/exam/ManageExam";
 
 const AppRoutes = () => {
   return (
@@ -45,6 +47,11 @@ const AppRoutes = () => {
         <Route path="categories" element={<CategoryList />} />
         <Route path="categories/manage" element={<ManageCategory />} />
         <Route path="categories/manage/:id" element={<ManageCategory />} />
+
+        {/* categories routes */}
+        <Route path="exams" element={<ExamList />} />
+        <Route path="exams/manage" element={<ManageExam />} />
+        <Route path="exams/manage/:id" element={<ManageExam />} />
       </Route>
     </Routes>
   );

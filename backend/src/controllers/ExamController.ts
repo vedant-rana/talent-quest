@@ -112,3 +112,17 @@ export const deleteExam = TryCatch(async (req, res, next) => {
     .status(HttpStatus.OK)
     .json(successResponse(deletedExam, "Exam deleted successfully"));
 });
+
+export const getAllExamTypes = TryCatch(async (req, res, next) => {
+  const lstData = await eRepo.getExamTypes();
+
+  if (lstData.length <= 0) {
+    return next(
+      new ErrorHandler("Exam Types Not Found !!", HttpStatus.NOT_FOUND)
+    );
+  }
+
+  return res
+    .status(HttpStatus.OK)
+    .json(successResponse(lstData, "Exam Type Fetched Successfully !!"));
+});

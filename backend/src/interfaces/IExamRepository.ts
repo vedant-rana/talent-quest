@@ -1,3 +1,4 @@
+import { DropDownListItem } from "../types/commonTypes.js";
 import { ExamModelType, IExam } from "../types/modelTypes/examModelTypes.js";
 
 export interface IExamRepository {
@@ -12,4 +13,6 @@ export interface IExamRepository {
   updateExam(id: string, Exam: ExamModelType): Promise<IExam | null>;
 
   deleteExam(id: string): Promise<IExam | null>;
+
+  getExamTypes(): Promise<DropDownListItem[]>;
 }

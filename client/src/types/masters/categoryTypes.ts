@@ -9,6 +9,7 @@ export type CategoryFormData = {
 };
 
 export type Category = CategoryFormData & {
+  _id: string;
   logo: Logo;
   type: CategoryType;
 };
