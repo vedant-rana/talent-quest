@@ -3,6 +3,7 @@ import {
   createQuestion,
   deleteQuestion,
   getAllQuestions,
+  getAllQuestionTypes,
   getQuestionById,
   updateQuestion,
 } from "../../controllers/questionController.js";
@@ -10,6 +11,8 @@ import {
 const router = express.Router();
 
 router.route("/all").get(getAllQuestions);
+
+router.route("/types").get(getAllQuestionTypes);
 
 router.route("/new").post(createQuestion);
 

@@ -1,3 +1,4 @@
+import { DropDownListItem } from "../types/commonTypes.js";
 import {
   IQuestion,
   QuestionModelType,
@@ -18,4 +19,6 @@ export interface IQuestionRepository {
   ): Promise<IQuestion | null>;
 
   deleteQuestion(id: string): Promise<IQuestion | null>;
+
+  getQuestionTypes(): Promise<DropDownListItem[]>;
 }

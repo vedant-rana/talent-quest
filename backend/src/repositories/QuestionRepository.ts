@@ -1,9 +1,12 @@
 import { IQuestionRepository } from "../interfaces/IQuestionRepository.js";
 import Question from "../models/questionModel.js";
+import { DropDownListItem } from "../types/commonTypes.js";
 import {
   IQuestion,
   QuestionModelType,
 } from "../types/modelTypes/questionModelTypes.js";
+import { QuestionTypeEnum } from "../utils/enums/commonEnums.js";
+import { enumToDropDownList } from "../utils/enums/enumHelper.js";
 
 export const QuestionRepository: IQuestionRepository = {
   async getAllQuestions(): Promise<IQuestion[]> {
@@ -39,5 +42,10 @@ export const QuestionRepository: IQuestionRepository = {
 
   async deleteQuestion(id: string): Promise<IQuestion | null> {
     return Question.findByIdAndDelete(id);
+  },
+
+  async getQuestionTypes(): Promise<DropDownListItem[]> {
+    const list: DropDownListItem[] = enumToDropDownList(QuestionTypeEnum);
+    return list;
   },
 };

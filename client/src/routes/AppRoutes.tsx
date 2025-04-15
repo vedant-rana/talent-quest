@@ -14,6 +14,8 @@ import CategoryList from "../pages/masters/category/Category";
 import ManageCategory from "../pages/masters/category/ManageCategory";
 import ExamList from "../pages/masters/exam/Exam";
 import ManageExam from "../pages/masters/exam/ManageExam";
+import QuestionList from "../pages/masters/questions/Question";
+import ManageQuestion from "../pages/masters/questions/ManageQuestion";
 
 const AppRoutes = () => {
   return (
@@ -52,6 +54,11 @@ const AppRoutes = () => {
         <Route path="exams" element={<ExamList />} />
         <Route path="exams/manage" element={<ManageExam />} />
         <Route path="exams/manage/:id" element={<ManageExam />} />
+
+        {/* categories routes */}
+        <Route path="questions" element={<QuestionList />} />
+        <Route path="questions/manage" element={<ManageQuestion />} />
+        <Route path="questions/manage/:id" element={<ManageQuestion />} />
       </Route>
     </Routes>
   );

@@ -123,3 +123,17 @@ export const deleteQuestion = TryCatch(async (req, res, next) => {
     .status(HttpStatus.OK)
     .json(successResponse(deletedQuestion, "Question deleted successfully"));
 });
+
+export const getAllQuestionTypes = TryCatch(async (req, res, next) => {
+  const lstData = await qRepo.getQuestionTypes();
+
+  if (lstData.length <= 0) {
+    return next(
+      new ErrorHandler("Question Types Not Found !!", HttpStatus.NOT_FOUND)
+    );
+  }
+
+  return res
+    .status(HttpStatus.OK)
+    .json(successResponse(lstData, "Question Types Fetched Successfully !!"));
+});
