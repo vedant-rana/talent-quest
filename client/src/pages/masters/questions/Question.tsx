@@ -64,7 +64,6 @@ const QuestionList = () => {
     { field: "note", headerName: "Note", flex: 1, sortable: true },
     { field: "questionType", headerName: "Type", flex: 1, sortable: true },
     { field: "score", headerName: "Score", flex: 1, sortable: true },
-
     {
       field: "exam",
       headerName: "Exam",
