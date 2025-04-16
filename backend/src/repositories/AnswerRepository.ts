@@ -1,9 +1,12 @@
 import { IAnswerRepository } from "../interfaces/IAnswerRepository.js";
 import Answer from "../models/answerModel.js";
+import Question from "../models/questionModel.js";
+import { DropDownListItem } from "../types/commonTypes.js";
 import {
   AnswerModelType,
   IAnswer,
 } from "../types/modelTypes/answerModelTypes.js";
+import { QuestionTypeEnum } from "../utils/enums/commonEnums.js";
 
 export const AnswerRepository: IAnswerRepository = {
   async getAllAnswers(): Promise<IAnswer[]> {
@@ -39,5 +42,23 @@ export const AnswerRepository: IAnswerRepository = {
 
   async deleteAnswer(id: string): Promise<IAnswer | null> {
     return Answer.findByIdAndDelete(id);
+  },
+
+  async getQuestionsForSelectiveAns(): Promise<DropDownListItem[]> {
+    const questions = await Question.find({
+      $or: [
+        { questionType: QuestionTypeEnum.SingleChoice },
+        { questionType: QuestionTypeEnum.MultipleChoice },
+      ],
+    }).select("title _id");
+
+    return questions.map((que) => {
+      const data: DropDownListItem = {
+        text: que.title,
+        value: que._id.toString(),
+      };
+
+      return data;
+    });
   },
 };

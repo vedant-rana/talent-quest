@@ -16,6 +16,8 @@ import ExamList from "../pages/masters/exam/Exam";
 import ManageExam from "../pages/masters/exam/ManageExam";
 import QuestionList from "../pages/masters/questions/Question";
 import ManageQuestion from "../pages/masters/questions/ManageQuestion";
+import AnswerList from "../pages/masters/answers/Answer";
+import ManageAnswer from "../pages/masters/answers/ManageAnswer";
 
 const AppRoutes = () => {
   return (
@@ -59,6 +61,11 @@ const AppRoutes = () => {
         <Route path="questions" element={<QuestionList />} />
         <Route path="questions/manage" element={<ManageQuestion />} />
         <Route path="questions/manage/:id" element={<ManageQuestion />} />
+
+        {/* answers routes */}
+        <Route path="answers" element={<AnswerList />} />
+        <Route path="answers/manage" element={<ManageAnswer />} />
+        <Route path="answers/manage/:id" element={<ManageAnswer />} />
       </Route>
     </Routes>
   );

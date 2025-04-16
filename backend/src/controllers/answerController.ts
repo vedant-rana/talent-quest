@@ -114,3 +114,13 @@ export const deleteAnswer = TryCatch(async (req, res, next) => {
     .status(HttpStatus.OK)
     .json(successResponse(deletedAnswer, "Answer deleted successfully"));
 });
+
+export const getQuestionsForNonDescriptiveAns = TryCatch(
+  async (req, res, next) => {
+    const Answers = await aRepo.getQuestionsForSelectiveAns();
+
+    return res
+      .status(HttpStatus.OK)
+      .json(successResponse(Answers, "Questions fetched successfully"));
+  }
+);

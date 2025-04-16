@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Question } from "../../../types/masters/questionTypes";
+import { Answer } from "../../../types/masters/answerTypes";
 import { ApiResType } from "../../../types/apiReqResTypes";
 import {
-  deleteQuestion,
-  getAllQuestions,
-} from "../../../api/services/questionServices";
+  deleteAnswer,
+  getAllAnswers,
+} from "../../../api/services/answerServices";
 import { toast } from "react-toastify";
 import { confirm } from "../../../utils/confirmAlert";
 import { IconButton, Tooltip } from "@mui/material";
@@ -14,24 +14,25 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
 import DataTable from "../../../components/DataGrid";
 
-const QuestionList = () => {
+const AnswerList = () => {
   const navigate = useNavigate();
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [answers, setAnswers] = useState<Answer[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const bindListData = async () => {
     try {
       setIsLoading(true);
-      const result: ApiResType = await getAllQuestions();
+      const result: ApiResType = await getAllAnswers();
 
       if (result.success) {
-        setQuestions(result.data as Question[]);
+        setAnswers(result.data as Answer[]);
       } else {
         toast.error(result.message);
       }
-      setIsLoading(false);
     } catch (error: any) {
       toast.error(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -42,13 +43,13 @@ const QuestionList = () => {
   const handleDelete = async (id: string) => {
     try {
       const isConfirm = await confirm(
-        "Delete Question",
-        "Are you sure you want to delete this Question?",
+        "Delete Answer",
+        "Are you sure you want to delete this Answer?",
         "Delete"
       );
       if (!isConfirm) return;
 
-      const result: ApiResType = await deleteQuestion(id);
+      const result: ApiResType = await deleteAnswer(id);
       if (result.success) {
         toast.success(result.message);
         bindListData();
@@ -61,18 +62,25 @@ const QuestionList = () => {
   };
 
   const columns = [
-    { field: "title", headerName: "Title", flex: 1, sortable: true },
-    { field: "note", headerName: "Note", flex: 1, sortable: true },
-    { field: "questionType", headerName: "Type", flex: 1, sortable: true },
-    { field: "score", headerName: "Score", flex: 1, sortable: true },
     {
-      field: "exam",
-      headerName: "Exam",
-      flex: 1,
+      field: "question",
+      headerName: "Question",
+      flex: 1.5,
       sortable: true,
       filterable: true,
       renderCell: (params: any) => {
-        return params.value.name;
+        return params.value.title;
+      },
+    },
+    { field: "value", headerName: "Option Value", flex: 1, sortable: true },
+    {
+      field: "isCorrect",
+      headerName: "Is Correct",
+      flex: 0.5,
+      sortable: true,
+      filterable: true,
+      renderCell: (params: any) => {
+        return params.value == true ? "Yes" : "No";
       },
     },
     {
@@ -87,7 +95,7 @@ const QuestionList = () => {
             <IconButton
               color="primary"
               onClick={() =>
-                navigate(`/masters/questions/manage/${params.row._id}`)
+                navigate(`/masters/answers/manage/${params.row._id}`)
               }
               sx={{ color: "green" }}
             >
@@ -115,7 +123,7 @@ const QuestionList = () => {
           <h4 className="title-h2 mt-5">Exam List</h4>
 
           <div className="text-right">
-            <Link to={"/masters/questions/manage"} className="master-button">
+            <Link to={"/masters/answers/manage"} className="master-button">
               Create New
             </Link>
           </div>
@@ -124,7 +132,7 @@ const QuestionList = () => {
             className="orderTable shadow-lg p-4"
             style={{ maxHeight: "700px" }}
           >
-            <DataTable columns={columns} data={questions} loading={isLoading} />
+            <DataTable columns={columns} data={answers} loading={isLoading} />
           </div>
         </div>
       </section>
@@ -132,4 +140,4 @@ const QuestionList = () => {
   );
 };
 
-export default QuestionList;
+export default AnswerList;

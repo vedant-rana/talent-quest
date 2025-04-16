@@ -84,6 +84,7 @@ const ManageQuestion = () => {
       stopLoading();
     }
   };
+
   const loadAllData = async () => {
     try {
       startLoading();

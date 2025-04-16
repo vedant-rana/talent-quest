@@ -1,3 +1,4 @@
+import { DropDownListItem } from "../types/commonTypes.js";
 import {
   AnswerModelType,
   IAnswer,
@@ -15,4 +16,6 @@ export interface IAnswerRepository {
   updateAnswer(id: string, Answer: AnswerModelType): Promise<IAnswer | null>;
 
   deleteAnswer(id: string): Promise<IAnswer | null>;
+
+  getQuestionsForSelectiveAns(): Promise<DropDownListItem[]>;
 }
