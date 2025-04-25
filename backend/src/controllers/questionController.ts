@@ -1,14 +1,20 @@
 import mongoose from "mongoose";
 import { TryCatch } from "../middlewares/errorMiddlewares.js";
 import { QuestionRepository as qRepo } from "../repositories/QuestionRepository.js";
-import { QuestionModelType } from "../types/modelTypes/questionModelTypes.js";
+import {
+  QueReqWithOptionsModelType,
+  QuestionModelType,
+} from "../types/modelTypes/questionModelTypes.js";
 import { CustomRequest } from "../types/reqResTypes/responseTypes.js";
 import ErrorHandler from "../utils/customError.js";
 import HttpStatus from "../utils/httpStatusCodes.js";
 import { successResponse } from "../utils/responseFunction.js";
 import { isObjectIdValid } from "../utils/validations/commonValidationSchemas.js";
 import { validateWithSchema } from "../utils/validations/validateFunctions.js";
-import { questionValidationSchema } from "../utils/validations/masterValidationSchemas/questionValidationSchema.js";
+import {
+  questionValidationSchema,
+  questionWithOptionsValidationSchema,
+} from "../utils/validations/masterValidationSchemas/questionValidationSchema.js";
 
 export const getAllQuestions = TryCatch(async (req, res, next) => {
   const Questions = await qRepo.getAllQuestions();
@@ -137,3 +143,62 @@ export const getAllQuestionTypes = TryCatch(async (req, res, next) => {
     .status(HttpStatus.OK)
     .json(successResponse(lstData, "Question Types Fetched Successfully !!"));
 });
+
+export const addQuestionWithAnswers = TryCatch(
+  async (req: CustomRequest, res, next) => {
+    const reqObj: QueReqWithOptionsModelType = req.body;
+
+    const validReqObj = validateWithSchema<QueReqWithOptionsModelType>(
+      questionWithOptionsValidationSchema,
+      reqObj
+    );
+
+    validReqObj.question.createdBy = String(req.user?._id);
+    validReqObj.question.updatedBy = String(req.user?._id);
+
+    const result = await qRepo.addQuesWithOptions(validReqObj);
+    if (!result) {
+      return next(
+        new ErrorHandler("Question creation failed !!", HttpStatus.NOT_FOUND)
+      );
+    }
+
+    return res
+      .status(HttpStatus.OK)
+      .json(successResponse(result, "Question Created Successfully !!"));
+  }
+);
+
+export const updateQuestionWithAnswers = TryCatch(
+  async (req: CustomRequest, res, next) => {
+    const id = isObjectIdValid(req.params.id);
+    const reqObj: QueReqWithOptionsModelType = req.body;
+
+    const validReqObj = validateWithSchema<QueReqWithOptionsModelType>(
+      questionWithOptionsValidationSchema,
+      reqObj
+    );
+
+    const isNameExist = await qRepo.getQuestionByCustomObj({
+      QuestionName: reqObj.question.title,
+      _id: { $ne: new mongoose.Types.ObjectId(id) },
+    });
+
+    if (isNameExist) {
+      return next(
+        new ErrorHandler(
+          `Question with Name: ${reqObj.question.title} already Exists!!`,
+          HttpStatus.CONFLICT
+        )
+      );
+    }
+
+    validReqObj.question.updatedBy = String(req.user?._id);
+
+    const updatedQuestion = await qRepo.updateQuesWithOptions(id, validReqObj);
+
+    return res
+      .status(HttpStatus.OK)
+      .json(successResponse(updatedQuestion, "Question updated successfully"));
+  }
+);

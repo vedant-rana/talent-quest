@@ -1,6 +1,7 @@
 import { DropDownListItem } from "../types/commonTypes.js";
 import {
   IQuestion,
+  QueReqWithOptionsModelType,
   QuestionModelType,
 } from "../types/modelTypes/questionModelTypes.js";
 
@@ -21,4 +22,11 @@ export interface IQuestionRepository {
   deleteQuestion(id: string): Promise<IQuestion | null>;
 
   getQuestionTypes(): Promise<DropDownListItem[]>;
+
+  addQuesWithOptions(data: QueReqWithOptionsModelType): Promise<boolean>;
+
+  updateQuesWithOptions(
+    id: string,
+    data: QueReqWithOptionsModelType
+  ): Promise<boolean>;
 }
