@@ -69,7 +69,7 @@ const AnswerList = () => {
       sortable: true,
       filterable: true,
       renderCell: (params: any) => {
-        return params.value.title;
+        return params.value?.title ?? "";
       },
     },
     { field: "value", headerName: "Option Value", flex: 1, sortable: true },

@@ -176,7 +176,7 @@ const ManageAnswer = () => {
                     className="form-check-label ml-2"
                     htmlFor="isCorrectAns"
                   >
-                    Is Active
+                    Is Correct
                   </label>
                 </div>
 

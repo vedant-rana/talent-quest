@@ -72,7 +72,7 @@ const QuestionList = () => {
       sortable: true,
       filterable: true,
       renderCell: (params: any) => {
-        return params.value.name;
+        return params.value?.name ?? "";
       },
     },
     {

@@ -77,7 +77,7 @@ const CategoryList = () => {
       filterable: false,
       renderCell: (params: any) => (
         <img
-          src={`${STATIC_API}/${params.value.logoUrl}`}
+          src={`${STATIC_API}/${params.value?.logoUrl ?? ""}`}
           alt="logo"
           style={{
             maxHeight: "100%",

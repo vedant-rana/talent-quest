@@ -68,7 +68,7 @@ const ExamList = () => {
       filterable: false,
       renderCell: (params: any) => (
         <img
-          src={`${STATIC_API}/${params.value.logoUrl}`}
+          src={`${STATIC_API}/${params.value?.logoUrl ?? ""}`}
           alt="logo"
           style={{
             maxHeight: "100%",
@@ -100,7 +100,7 @@ const ExamList = () => {
       sortable: true,
       filterable: true,
       renderCell: (params: any) => {
-        return params.value.categoryName;
+        return params.value?.categoryName ?? "";
       },
     },
     {
