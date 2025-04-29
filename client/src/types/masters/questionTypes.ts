@@ -1,3 +1,4 @@
+import { Answer, AnswerWithoutQuestion } from "./answerTypes";
 import { Exam } from "./examTypes";
 
 export type QuestionFormData = {
@@ -13,4 +14,9 @@ export type Question = QuestionFormData & {
   exam: Exam;
   createdAt: string;
   updatedAt: string;
+};
+
+export type QuestionWithAnswerFormData = {
+  question: QuestionFormData;
+  options: AnswerWithoutQuestion[];
 };

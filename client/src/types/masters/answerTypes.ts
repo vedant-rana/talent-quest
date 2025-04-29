@@ -12,3 +12,8 @@ export type Answer = AnswerFormData & {
   createdAt: string;
   updatedAt: string;
 };
+
+export type AnswerWithoutQuestion = Omit<
+  Answer,
+  "question" | "createdAt" | "updatedAt"
+>;

@@ -115,7 +115,10 @@ const QuestionList = () => {
           <h4 className="title-h2 mt-5">Exam List</h4>
 
           <div className="text-right">
-            <Link to={"/masters/questions/manage"} className="master-button">
+            <Link
+              to={"/masters/questions/manage-with-options"}
+              className="master-button"
+            >
               Create New
             </Link>
           </div>

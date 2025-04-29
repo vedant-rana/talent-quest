@@ -1,7 +1,10 @@
 import api from "../axios";
 import { ApiResType } from "../../types/apiReqResTypes";
 import { handleApiRequest } from "../../utils/handleApiRequest";
-import { QuestionFormData } from "../../types/masters/questionTypes";
+import {
+  QuestionFormData,
+  QuestionWithAnswerFormData,
+} from "../../types/masters/questionTypes";
 
 export const getAllQuestions = async (): Promise<ApiResType> => {
   return await handleApiRequest(async () => {
@@ -46,6 +49,15 @@ export const deleteQuestion = async (id: string): Promise<ApiResType> => {
 export const getQuestionTypes = async (): Promise<ApiResType> => {
   return await handleApiRequest(async () => {
     const res = await api.get(`/masters/question/types`);
+    return res.data as ApiResType;
+  });
+};
+
+export const createQuestionWithOptions = async (
+  formData: QuestionWithAnswerFormData
+): Promise<ApiResType> => {
+  return await handleApiRequest(async () => {
+    const res = await api.post(`/masters/question/new-with-answers`, formData);
     return res.data as ApiResType;
   });
 };

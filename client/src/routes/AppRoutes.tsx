@@ -18,6 +18,7 @@ import QuestionList from "../pages/masters/questions/Question";
 import ManageQuestion from "../pages/masters/questions/ManageQuestion";
 import AnswerList from "../pages/masters/answers/Answer";
 import ManageAnswer from "../pages/masters/answers/ManageAnswer";
+import ManageQuestionWithOptions from "../pages/masters/questions/ManageQuestionWithAnswers";
 
 const AppRoutes = () => {
   return (
@@ -61,6 +62,10 @@ const AppRoutes = () => {
         <Route path="questions" element={<QuestionList />} />
         <Route path="questions/manage" element={<ManageQuestion />} />
         <Route path="questions/manage/:id" element={<ManageQuestion />} />
+        <Route
+          path="questions/manage-with-options"
+          element={<ManageQuestionWithOptions />}
+        />
 
         {/* answers routes */}
         <Route path="answers" element={<AnswerList />} />
