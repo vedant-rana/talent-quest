@@ -58,7 +58,9 @@ export const QuestionRepository: IQuestionRepository = {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
-      const newQues = await Question.create([dataObj.question], { session });
+      const newQues: IQuestion[] = await Question.create([dataObj.question], {
+        session,
+      });
 
       if (!newQues || newQues.length === 0) {
         throw new Error("Failed to create question");
@@ -71,19 +73,20 @@ export const QuestionRepository: IQuestionRepository = {
       }
 
       dataObj.options.forEach((op) => {
-        op.question = newQues[0]._id.toString();
+        op._id = undefined;
+        op.question = newQues[0]._id as string;
         op.createdBy = dataObj.question.createdBy;
         op.updatedBy = dataObj.question.updatedBy;
       });
 
-      await Answer.insertMany(dataObj.options, {
+      const data = await Answer.insertMany(dataObj.options, {
         session,
       });
 
       await session.commitTransaction();
       await session.endSession();
       return true;
-    } catch (err) {
+    } catch (err: any) {
       await session.abortTransaction();
       await session.endSession();
       return false;
@@ -169,7 +172,6 @@ export const QuestionRepository: IQuestionRepository = {
     } catch (err) {
       await session.abortTransaction();
       await session.endSession();
-      console.error("Error in updateQuesWithOptions:", err);
       return false;
     }
   },

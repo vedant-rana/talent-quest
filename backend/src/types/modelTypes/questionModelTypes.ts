@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import { Document, Schema } from "mongoose";
 import { QuestionTypeEnum } from "../../utils/enums/commonEnums.js";
 import { AnswerModelType, IAnswer } from "./answerModelTypes.js";
 

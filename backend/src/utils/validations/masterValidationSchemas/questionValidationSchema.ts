@@ -1,6 +1,6 @@
 import Joi from "joi";
 import { QuestionTypeEnum } from "../../enums/commonEnums.js";
-import { answerValidationSchema } from "./answerValidationSchema.js";
+import { answerWithQuestionValidationSchema } from "./answerValidationSchema.js";
 
 const typeValues = Object.values(QuestionTypeEnum);
 // .filter(
@@ -25,7 +25,7 @@ const questionWithAnswersObject = {
     is: QuestionTypeEnum.Descriptive,
     then: Joi.forbidden(), // or Joi.optional(), depending on your requirement
     otherwise: Joi.array()
-      .items(answerValidationSchema)
+      .items(answerWithQuestionValidationSchema)
       .min(2)
       .required()
       .messages({
